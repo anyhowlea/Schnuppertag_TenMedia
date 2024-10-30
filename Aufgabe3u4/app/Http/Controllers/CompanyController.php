@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorecompanyRequest;
-use App\Http\Requests\UpdatecompanyRequest;
+use Illuminate\Http\Request;
 use App\Models\company;
 
 class CompanyController extends Controller
@@ -13,7 +12,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+       $companies = Company::all();
+        return view('companies.index', compact('companies'));  
     }
 
     /**
@@ -21,7 +21,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        return view('companies.create');
     }
 
     /**
@@ -29,7 +29,8 @@ class CompanyController extends Controller
      */
     public function store(StorecompanyRequest $request)
     {
-        //
+        Company::create($request->all());
+        return redirect()->route('companies.index');
     }
 
     /**
@@ -37,7 +38,7 @@ class CompanyController extends Controller
      */
     public function show(company $company)
     {
-        //
+         return view('companies.show', compact('company'));
     }
 
     /**
@@ -45,7 +46,7 @@ class CompanyController extends Controller
      */
     public function edit(company $company)
     {
-        //
+         return view('companies.edit', compact('company'));
     }
 
     /**
@@ -53,7 +54,8 @@ class CompanyController extends Controller
      */
     public function update(UpdatecompanyRequest $request, company $company)
     {
-        //
+        $company->update($request->all());
+        return redirect()->route('companies.index');
     }
 
     /**
@@ -61,6 +63,7 @@ class CompanyController extends Controller
      */
     public function destroy(company $company)
     {
-        //
+        $company->delete();
+        return redirect()->route('companies.index');
     }
 }
